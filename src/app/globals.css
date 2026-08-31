@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #FFF9F9; /* Beautiful Premium Rose White */
+  --foreground: #1A1A1A; /* High-contrast Charcoal Black */
+  --card-background: #FFFFFF; /* Pure White Card */
+  --border-color: #EADCDD; /* Subtle Rose-Gray Border */
+  
+  --primary: #B76E79; /* Luxury Rose Gold Accent */
+  --primary-foreground: #FFFFFF; /* Pure White text on Rose Gold */
+  --secondary: #FAF4F4; /* Very Light Rose Gray */
+  --secondary-foreground: #1A1A1A;
+  --accent: #F7E7EA; /* Soft Rose Pink */
+  --accent-foreground: #B76E79;
+}
+
+/* Force light Rose-White theme in dark mode (no dark color templates allowed) */
+.dark {
+  --background: #FFF9F9;
+  --foreground: #1A1A1A;
+  --card-background: #FFFFFF;
+  --border-color: #EADCDD;
+  
+  --primary: #B76E79;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FAF4F4;
+  --secondary-foreground: #1A1A1A;
+  --accent: #F7E7EA;
+  --accent-foreground: #B76E79;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card-background);
+  --color-border: var(--border-color);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: #2D2D2D; /* Charcoal text for optimal readability */
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--foreground);
+  font-family: var(--font-serif);
+}
+
+/* Glassmorphism for Navbar (Modern Luxury Look) */
+.glass {
+  background: rgba(255, 249, 249, 0.9); /* Rose White backdrop */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(183, 110, 121, 0.15); /* Soft rose gold divider line */
+}
+
+/* Custom scrollbar for premium touch */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}

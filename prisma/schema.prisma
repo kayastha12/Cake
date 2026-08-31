@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("CUSTOMER") // CUSTOMER, ADMIN
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+  reviews   Review[]
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  slug     String    @unique
+  products Product[]
+}
+
+model Product {
+  id          String         @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  categoryId  String
+  category    Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  stock       Int            @default(10)
+  images      ProductImage[]
+  reviews     Review[]
+  orderItems  OrderItem[]
+  isFeatured  Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model ProductImage {
+  id        String  @id @default(uuid())
+  url       String
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  rating     Int      // 1 to 5
+  comment    String
+  authorName String
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  deliveryAddress String
+  deliveryCity    String
+  deliveryZip     String
+  deliveryDate    String
+  totalAmount     Float
+  discountAmount  Float       @default(0)
+  couponCode      String?
+  status          String      @default("PENDING") // PENDING, BAKING, OUT_FOR_DELIVERY, DELIVERED, CANCELLED
+  paymentStatus   String      @default("PENDING") // PENDING, PAID, FAILED
+  paymentId       String?
+  whatsappOrder   Boolean     @default(false)
+  orderItems      OrderItem[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int
+  price     Float
+  weight    String  // "500g", "1kg", "2kg"
+}
+
+model Coupon {
+  id            String    @id @default(uuid())
+  code          String    @unique
+  discountType  String    // PERCENTAGE, FIXED
+  discountValue Float
+  minOrderValue Float     @default(0)
+  isActive      Boolean   @default(true)
+  expiryDate    DateTime?
+  createdAt     DateTime  @default(now())
+}
