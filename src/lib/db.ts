@@ -7,7 +7,7 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient };
 let prisma: PrismaClient;
 
 const getDatabaseUrl = () => {
-  // Use absolute path for dev.db so it resolves consistently in API routes and client contexts
+  // Use absolute path for dev.db so it resolves consistently
   const dbPath = path.resolve(process.cwd(), "prisma/dev.db");
   return `file:${dbPath}`;
 };
